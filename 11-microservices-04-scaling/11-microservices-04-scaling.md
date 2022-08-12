@@ -25,7 +25,7 @@
 | Обеспечивать обнаружение сервисов и маршрутизацию запросов | Да, с использованием встроенного DNS-сервера | Да, с использованием встроенного DNS-сервера | | | | |
 | Обеспечивать возможность горизонтального масштабирования | Да, автоматический (HPA) | Да, вручную, `docker service scale`  | | | | |
 | Обеспечивать возможность автоматического масштабирования | Да, автоматический, в зависимости от нагрузки (VPA) | Нет |  | | | |
-| Обеспечивать явное разделение ресурсов доступных извне и внутри системы | Да, доступ извне через [Services](https://kubernetes.io/docs/tutorials/kubernetes-basics/expose/expose-intro/) изоляция внутри и снаружи обеспечивается через [Namespaces](https://www.qovery.com/blog/basic-network-isolation-in-kubernetes) | Да, -ports, overlay network | | | | |
+| Обеспечивать явное разделение ресурсов доступных извне и внутри системы | Да, доступ извне через [Services](https://kubernetes.io/docs/tutorials/kubernetes-basics/expose/expose-intro/) изоляция внутри и снаружи обеспечивается через [Namespaces](https://www.qovery.com/blog/basic-network-isolation-in-kubernetes) | Да, для [publish](https://docs.docker.com/engine/swarm/services/#publish-ports) для доступа извне, [overlay network](https://docs.docker.com/engine/swarm/services/#connect-the-service-to-an-overlay-network) для некоторого разграничения внутри swarm | | | | |
 | Обеспечивать возможность конфигурировать приложения с помощью переменных среды | Да | Да | | | | |
 | Возможность безопасного хранения чувствительных данных таких как пароли, ключи доступа, ключи шифрования и т.п | [Да](https://kubernetes.io/docs/concepts/configuration/secret/#working-with-secrets) | Да, `docker secret` | | | | |
 
