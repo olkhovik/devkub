@@ -92,11 +92,98 @@ storage-provisioner                  1/1     Running   0          55s
 >- развернуть через Minikube тестовое приложение по [туториалу](https://kubernetes.io/ru/docs/tutorials/hello-minikube/#%D1%81%D0%BE%D0%B7%D0%B4%D0%B0%D0%BD%D0%B8%D0%B5-%D0%BA%D0%BB%D0%B0%D1%81%D1%82%D0%B5%D1%80%D0%B0-minikube)
 >- установить аддоны ingress и dashboard
 
+### Развернуть через Minikube тестовое приложение
+Деплоймент
+
+```console
+root@Lenovo-B50:~# kubectl get deployment
+NAME         READY   UP-TO-DATE   AVAILABLE   AGE
+hello-node   1/1     1            1           17m
+```
+Сервисы
+
+```console
+root@Lenovo-B50:~# kubectl get services
+NAME         TYPE           CLUSTER-IP      EXTERNAL-IP   PORT(S)          AGE
+hello-node   LoadBalancer   10.110.244.29   <pending>     8080:31295/TCP   17m
+kubernetes   ClusterIP      10.96.0.1       <none>        443/TCP          48m
+```
+
+Под
+
+```console
+root@Lenovo-B50:~# kubectl get pods
+NAME                          READY   STATUS    RESTARTS   AGE
+hello-node-6d5f754cc9-xb79z   1/1     Running   0          17m
+```
+
+Сервисы minikube
+
+```console
+root@Lenovo-B50:~# minikube service list
+|-------------|------------|--------------|----------------------------|
+|  NAMESPACE  |    NAME    | TARGET PORT  |            URL             |
+|-------------|------------|--------------|----------------------------|
+| default     | hello-node |         8080 | http://192.168.0.193:31295 |
+| default     | kubernetes | No node port |
+| kube-system | kube-dns   | No node port |
+|-------------|------------|--------------|----------------------------|
+```
+
+### Установить аддоны ingress и dashboard
+
+```console
+rroot@Lenovo-B50:~# minikube addons list | grep enabled
+| dashboard                   | minikube | enabled ✅   | kubernetes                     |
+| default-storageclass        | minikube | enabled ✅   | kubernetes                     |
+| ingress                     | minikube | enabled ✅   | unknown (third-party)          |
+| metrics-server              | minikube | enabled ✅   | kubernetes                     |
+| storage-provisioner         | minikube | enabled ✅   | google                         |
+```
+
 ## Задача 3: Установить kubectl
 
 >Подготовить рабочую машину для управления корпоративным кластером. Установить клиентское приложение kubectl.
 >- подключиться к minikube 
 >- проверить работу приложения из задания 2, запустив port-forward до кластера
+
+- Тест `minikube`:
+```console
+root@Lenovo-B50:~# kubectl version --short
+Flag --short has been deprecated, and will be removed in the future. The --short output will become the default.
+Client Version: v1.25.0
+Kustomize Version: v4.5.7
+Server Version: v1.24.3
+```
+- Тест `port-forward`, лог `kubectl`:
+```console
+root@Lenovo-B50:~# kubectl port-forward service/hello-node 8080:8080
+  Forwarding from 127.0.0.1:8080 -> 8080
+  Forwarding from [::1]:8080 -> 8080
+  ^[|Handling connection for 8080
+```
+- Тест `port-forward`, вывод `curl`:
+```console
+root@Lenovo-B50:~# curl localhost:8080
+  CLIENT VALUES:
+  client_address=127.0.0.1
+  command=GET
+  real path=/
+  query=nil
+  request_version=1.1
+  request_uri=http://localhost:8080/
+
+  SERVER VALUES:
+  server_version=nginx: 1.10.0 - lua: 10001
+
+  HEADERS RECEIVED:
+  accept=*/*
+  host=localhost:8080
+  user-agent=curl/7.74.0
+  BODY:
+  -no body in request-0
+```
+
 
 ## Задача 4 (*): собрать через ansible (необязательное)
 
