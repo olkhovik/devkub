@@ -36,7 +36,7 @@
 
 Установил на локальной машине:
 
-```
+```console
 dmitry@Lenovo-B50:~# minikube version
 minikube version: v1.26.1
 commit: 62e108c3dfdec8029a890ad6d8ef96b6461426dc
