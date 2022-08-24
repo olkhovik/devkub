@@ -34,6 +34,58 @@
 >
 > </details>
 
+Установил на локальной машине:
+
+```
+dmitry@Lenovo-B50:~# minikube version
+minikube version: v1.26.1
+commit: 62e108c3dfdec8029a890ad6d8ef96b6461426dc
+dmitry@Lenovo-B50:~$ sudo -i
+root@Lenovo-B50:~# minikube start --vm-driver=none
+* minikube v1.26.1 on Ubuntu 22.04
+* Using the none driver based on existing profile
+* Starting control plane node minikube in cluster minikube
+* Running on localhost (CPUs=4, Memory=6906MB, Disk=223751MB) ...
+* OS release is Ubuntu 22.04.1 LTS
+* Preparing Kubernetes v1.24.3 on Docker 20.10.12 ...
+  - kubelet.resolv-conf=/run/systemd/resolve/resolv.conf
+    > kubectl.sha256:  64 B / 64 B [-------------------------] 100.00% ? p/s 0s
+    > kubeadm.sha256:  64 B / 64 B [-------------------------] 100.00% ? p/s 0s
+    > kubelet.sha256:  64 B / 64 B [-------------------------] 100.00% ? p/s 0s
+    > kubectl:  43.59 MiB / 43.59 MiB [--------------] 100.00% 2.36 MiB p/s 19s
+    > kubeadm:  42.32 MiB / 42.32 MiB [--------------] 100.00% 1.67 MiB p/s 26s
+    > kubelet:  110.64 MiB / 110.64 MiB [------------] 100.00% 3.08 MiB p/s 36s
+  - Generating certificates and keys ...
+  - Booting up control plane ...
+  - Configuring RBAC rules ...
+* Configuring local host environment ...
+*
+! The 'none' driver is designed for experts who need to integrate with an existing VM
+* Most users should use the newer 'docker' driver instead, which does not require root!
+* For more information, see: https://minikube.sigs.k8s.io/docs/reference/drivers/none/
+*
+! kubectl and minikube configuration will be stored in /root
+! To use kubectl or minikube commands as your own user, you may need to relocate them. For example, to overwrite your own settings, run:
+*
+  - sudo mv /root/.kube /root/.minikube $HOME
+  - sudo chown -R $USER $HOME/.kube $HOME/.minikube
+*
+* This can also be done automatically by setting the env var CHANGE_MINIKUBE_NONE_USER=true
+* Verifying Kubernetes components...
+  - Using image gcr.io/k8s-minikube/storage-provisioner:v5
+* Enabled addons: default-storageclass, storage-provisioner
+* Done! kubectl is now configured to use "minikube" cluster and "default" namespace by default
+root@Lenovo-B50:~# kubectl get pods --namespace=kube-system
+NAME                                 READY   STATUS    RESTARTS   AGE
+coredns-6d4b75cb6d-qkrnx             1/1     Running   0          47s
+etcd-lenovo-b50                      1/1     Running   0          58s
+kube-apiserver-lenovo-b50            1/1     Running   0          58s
+kube-controller-manager-lenovo-b50   1/1     Running   0          58s
+kube-proxy-tqxnw                     1/1     Running   0          47s
+kube-scheduler-lenovo-b50            1/1     Running   0          58s
+storage-provisioner                  1/1     Running   0          55s
+```
+
 ## Задача 2: Запуск Hello World
 >После установки Minikube требуется его проверить. Для этого подойдет стандартное приложение hello world. А для доступа к нему потребуется ingress.
 >
