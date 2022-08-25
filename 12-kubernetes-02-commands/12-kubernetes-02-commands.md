@@ -11,6 +11,24 @@
 > * наличие deployment можно проверить командой kubectl get deployment
 > * наличие подов можно проверить командой kubectl get pods
 
+- hello world запущен в качестве deployment, количество реплик в deployment установлено в 2:
+    ```console
+    root@Lenovo-B50:~#  kubectl create deployment hello-node --image=k8s.gcr.io/echoserver:1.4 -r 2
+    deployment.apps/hello-node created
+    ```
+- `kubectl get deployment`:
+    ```console
+    root@Lenovo-B50:~# kubectl get deployment
+    NAME         READY   UP-TO-DATE   AVAILABLE   AGE
+    hello-node   2/2     2            2           11s
+    ```
+- `kubectl get pods`:
+    ```console
+    root@Lenovo-B50:~# kubectl get pods
+    NAME                          READY   STATUS    RESTARTS   AGE
+    hello-node-6d5f754cc9-jpwbw   1/1     Running   0          26s
+    hello-node-6d5f754cc9-t7tqp   1/1     Running   0          26s
+    ```
 
 ## Задание 2: Просмотр логов для разработки
 >Разработчикам крайне важно получать обратную связь от штатно работающего приложения и, еще важнее, об ошибках в его работе. 
@@ -22,12 +40,15 @@
 > * пользователь может просматривать логи подов и их конфигурацию (kubectl logs pod <pod_id>, kubectl describe pod <pod_id>)
 
 
+
 ## Задание 3: Изменение количества реплик 
 >Поработав с приложением, вы получили запрос на увеличение количества реплик приложения для нагрузки. Необходимо изменить запущенный deployment, увеличив количество реплик до 5. Посмотрите статус запущенных подов после увеличения реплик. 
 >
 >Требования:
 > * в deployment из задания 1 изменено количество реплик на 5
 > * проверить что все поды перешли в статус running (kubectl get pods)
+
+
 
 ---
 
