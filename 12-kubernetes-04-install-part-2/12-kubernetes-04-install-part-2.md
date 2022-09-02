@@ -9,7 +9,7 @@
 
 ### 5 нод: 1 мастер и 4 рабочие ноды
 
-- [inventory](./12-kubernetes-04-install-part-2/kubespray/inventory/mycluster/inventory.ini) файл
+- [inventory](./kubespray/inventory/mycluster/inventory.ini) файл
 - Ноды:
 
     ```console
@@ -57,7 +57,7 @@
 
 ### В качестве CRI — containerd;
 
-- Листинг контейнеров в `crictl`:
+- Листинг контейнеров в `crictl` на control ноде:
 
     ```console
   root@n124-control-0:~# crictl ps
