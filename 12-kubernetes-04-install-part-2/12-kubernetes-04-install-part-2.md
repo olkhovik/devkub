@@ -11,6 +11,7 @@
 
 - [inventory](./12-kubernetes-04-install-part-2/kubespray/inventory/mycluster/inventory.ini) файл
 - Ноды:
+
     ```console
   root@n124-control-0:~# kubectl get nodes
   NAME             STATUS    ROLES            AGE		VERSION
@@ -22,6 +23,7 @@
   root@n124-control-0:~#
     ```
 - Поды:
+
   ```console
   root@n124-control-0:~# kubectl get pods -A -o wide
   NAMESPACE		NAME					READY		STATUS		RESTARTS	AGE		IP       	NODE		NOMINATED NODE	READINESS GATES
@@ -56,6 +58,7 @@
 ### В качестве CRI — containerd;
 
 - Листинг контейнеров в `crictl`:
+
     ```console
   root@n124-control-0:~# crictl ps
   CONTAINER	IMAGE		CREATED		STATE		NAME			ATTEMPT		POD ID		POD
@@ -73,14 +76,15 @@
 ### Запуск etcd производить на мастере
 
 - etcd на control ноде:
+
     ```console
   root@n124-control-0:~# {
   >     etcdctl endpoint status \
-  >	  --write-out=table \
-  >	  --endpoints=https://localhost:2379 \
-  >	  --cacert=/etc/ssl/etcd/ssl/ca.pem \
-  >	  --cert=/etc/ssl/etcd/ssl/member-n124-control-0.pem \
-  >	  --key=/etc/ssl/etcd/ssl/member-n124-control-0-key.pem
+  >      --write-out=table \
+  >      --endpoints=https://localhost:2379 \
+  >      --cacert=/etc/ssl/etcd/ssl/ca.pem \
+  >      --cert=/etc/ssl/etcd/ssl/member-n124-control-0.pem \
+  >      --key=/etc/ssl/etcd/ssl/member-n124-control-0-key.pem
   > }
   +-----------------------+--------------------+----------+-----------+-------------+-----------+-----------+------------+--------------------+--------+
   |	ENDPOINT	|	  ID	     |	VERSION	|  DB SIZE  |  IS LEADER  | IS LEANER |	RAFT TERM | RAFT INDEX | RAFT APPLIED INDEX | ERRORS |	
