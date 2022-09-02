@@ -102,8 +102,8 @@
 Делал всё в Yandex Cloud
 
 Весь стек, включая ноды и кластер, поднимаются Терраформом:
-1. [prepare.tf](./12-kubernetes-04-install-part-2/prepare.tf) выполняет `git clone` Kubespray, ставит зависимости и копирует папку для инвентори из шаблона
-1. [yandex.tf](./12-kubernetes-04-install-part-2/yandex.tf) разворачивает ноды
-1. [inventory.tf](./12-kubernetes-04-install-part-2/inventory.tf) подготавливает [inventory.ini](./12-kubernetes-04-install-part-2/kubespray/inventory/mycluster/inventory.ini) из шаблона [inventory.tpl](./12-kubernetes-04-install-part-2/templates/inventory.tpl) с помощью модулей `template_file` и `null_resource`
-1. [ansible.tf](./12-kubernetes-04-install-part-2/ansible.tf) разворачивает кластер с помощь Kubespray
+1. [prepare.tf](./prepare.tf) выполняет `git clone` Kubespray, ставит зависимости и копирует папку для инвентори из шаблона
+1. [yandex.tf](./yandex.tf) разворачивает ноды
+1. [inventory.tf](./inventory.tf) подготавливает [inventory.ini](./kubespray/inventory/mycluster/inventory.ini) из шаблона [inventory.tpl](./templates/inventory.tpl) с помощью модулей `template_file` и `null_resource`
+1. [ansible.tf](./ansible.tf) разворачивает кластер с помощь Kubespray
 
