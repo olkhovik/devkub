@@ -28,14 +28,14 @@ n125-control-0   Ready    control-plane   83m   v1.24.2   10.121.0.15   <none>  
 n125-worker-0    Ready    <none>          81m   v1.24.2   10.121.0.7    <none>        Ubuntu 20.04.4 LTS   5.4.0-120-generic   containerd://1.6.6
 ```
 
-деплоймент:
+Деплоймент:
 ```console
 $ kubectl get deploy -o wide
 NAME         READY   UP-TO-DATE   AVAILABLE   AGE   CONTAINERS   IMAGES                      SELECTOR
 hello-node   2/2     2            2           80m   echoserver   k8s.gcr.io/echoserver:1.4   app=hello-node
 ```
 
-поды:
+Поды:
 ```console
 $ kubectl get pods -o wide
 NAME                          READY   STATUS    RESTARTS   AGE   IP            NODE            NOMINATED NODE   READINESS GATES
@@ -43,7 +43,7 @@ hello-node-7f6g865vv1-nl5y8   1/1     Running   0          81m   10.231.47.2   n
 hello-node-7f6g865vv1-zbfcm   1/1     Running   0          81m   10.231.47.3   n125-worker-0   <none>           <none>
 ```
 
-сервисы:
+Сервисы:
 ```console
 $ kubectl get services -o wide
 NAME         TYPE           CLUSTER-IP     EXTERNAL-IP   PORT(S)          AGE   SELECTOR
@@ -57,12 +57,12 @@ kubernetes   ClusterIP      10.231.0.1     <none>        443/TCP          87m   
 - [accept-pods-communication](./policies/accept-pods-communication.yml) - разрешает хождение трафика между репликами hello-node
 - [default-ingress-deny](./policies/default-ingress-deny.yml) - запрещает прочие коммуникации
 
-Проверяем доступ без политик
+Проверяем доступ без политик:
 ```console
 $ kubectl get netpol -A
 No resources found
 ```
-- Доступ от одного пода к другому - работает
+- Доступ от одного пода к другому - работает:
     ```console
     14:16:23 ~ dmitry@Lenovo-B50:~/git/devops-netology/04-devkub-homeworks/12-kubernetes-05-cni/policies (main *=)
     $ kubectl exec hello-node-7f6g865vv1-nl5y8 -- curl -m 1 -s http://10.231.47.3:8080 | grep -e request_uri -e host -e client_address
@@ -75,7 +75,7 @@ No resources found
     request_uri=http://10.231.47.2:8080/
     host=10.231.47.2:8080
     ```
-- Доступ извне - работает
+- Доступ извне - работает:
     ```console
     14:18:45 ~ dmitry@Lenovo-B50:~/git/devops-netology/04-devkub-homeworks/12-kubernetes-05-cni/policies (main *=)
     $ curl -s -m 1 http://51.250.65.17:31619 | grep -e request_uri -e host -e client_address
@@ -83,7 +83,7 @@ No resources found
     request_uri=http://51.250.65.17:8080/
     host=51.250.65.17:31619
     ```
-применяем политики
+Применяем политики:
 ```console
 $ kubectl apply -f accept-pods-communication.yml
 networkpolicy.networking.k8s.io/accept-pods-communication created
@@ -99,7 +99,7 @@ default     accept-pods-communication   app=hello-node   27s
 default     default-deny-ingress        app=hello-node   19s
 ```
 
-- доступ от одного пода к другому - по-прежнему работает
+- Доступ от одного пода к другому - по-прежнему работает:
     ```console
     14:20:34 ~ dmitry@Lenovo-B50:~/git/devops-netology/04-devkub-homeworks/12-kubernetes-05-cni/policies (main *=)
     $ kubectl exec hello-node-7f6g865vv1-nl5y8 -- curl -m 1 -s http://10.231.47.3:8080 | grep -e request_uri -e host -e client_address
@@ -112,7 +112,7 @@ default     default-deny-ingress        app=hello-node   19s
     request_uri=http://10.231.47.2:8080/
     host=10.231.47.2:8080
     ```
-- доступ извне - не работает
+- Доступ извне - не работает:
     ```console
     14:22:17 ~ dmitry@Lenovo-B50:~/git/devops-netology/04-devkub-homeworks/12-kubernetes-05-cni/policies (main *=)
     $ curl -s -v -m 1 http://51.250.65.17:31619 | grep -e request_uri -e host -e client_address
