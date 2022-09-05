@@ -1,0 +1,86 @@
+---
+- name: Run hello-node
+  hosts: n125-control-0
+  become: yes
+  gather_facts: yes
+  tasks:
+    - name: Check if hello-node is deployed
+      shell: kubectl get deployments | grep -w ^hello-node
+      register: check_hello_node
+      changed_when: False
+      failed_when: False
+    - name: Deploy hello-node
+      command: 
+        cmd: kubectl create deployment hello-node --image=k8s.gcr.io/echoserver:1.4 --replicas=1
+      when: check_hello_node.rc != 0
+
+    - name: Check if hello-node is exposed
+      shell: kubectl get services | grep -w ^hello-node.*8080 
+      register: check_hello_node_exposed
+      changed_when: False
+      failed_when: False
+    - name: Expose hello-node
+      command: 
+        cmd: kubectl expose deployment hello-node --type=LoadBalancer --port=8080
+      when: check_hello_node_exposed.rc != 0
+
+    - name: Check if hello node port forwarded
+      shell: ss -tunlp | grep 8080
+      changed_when: False
+      failed_when: False
+      register: check_port_forward
+    - name: Forward hello node port
+      shell: nohup kubectl port-forward service/hello-node 8080:8080 --address=0.0.0.0 >/dev/null 2>&1 &
+      async: 10
+      poll: 0
+      register: forward_result
+      when: check_port_forward.rc != 0
+
+    - name: Check if proxy is running
+      shell: ss -tunlp | grep 8001
+      changed_when: False
+      failed_when: False
+      register: check_proxy
+    - name: Run kubectl proxy to view dashboard
+      shell: "(kubectl proxy --address='0.0.0.0' --disable-filter=true &)"
+      async: 10
+      poll: 0
+      when: check_proxy.rc != 0
+
+    - name: Echo dashboard link
+      debug: 
+        msg: "http://{{ ansible_host }}:8001/api/v1/namespaces/kubernetes-dashboard/services/http:kubernetes-dashboard:/proxy/"
+
+- name: Get kuber credentials
+  hosts: n125-control-0
+  become: yes
+  gather_facts: yes
+  tasks:
+    - name: Save host to var
+      set_fact:
+        kube_control_node: "{{ ansible_host }}"
+    - name: Print fact
+      debug:
+        var: kube_control_node
+
+    - name: Duplicate folder kube
+      copy:
+        src: /etc/kubernetes/admin.conf
+        dest: /etc/kubernetes/admin_export.conf
+        remote_src: yes
+        mode: 0755
+
+    - name: Set Kube IP in config
+      replace:
+        path: /etc/kubernetes/admin_export.conf
+        regexp: 'server: https://[0-9.]*:'
+        replace: "server: https://{{ kube_control_node }}:"
+    - name: Fetch kube config
+      synchronize:
+        src: /etc/kubernetes/admin_export.conf
+        dest: ~/.kube/config
+        delete: yes
+        recursive: yes
+        owner: no
+        group: no
+        mode: pull
