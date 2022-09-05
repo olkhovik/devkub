@@ -127,5 +127,83 @@ default     default-deny-ingress        app=hello-node   19s
 >- установить утилиту calicoctl;
 >- получить 3 вышеописанных типа в консоли.
 
+### Установить утилиту calicoctl;
+
+Установил по [документации](https://projectcalico.docs.tigera.io/maintenance/clis/calicoctl/install#install-calicoctl-as-a-binary-on-a-single-host)
+```console
+$ curl -L https://github.com/projectcalico/calico/releases/download/v3.23.1/calicoctl-linux-amd64 -o calicoctl
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+100 56.4M  100 56.4M    0     0  3292k      0  0:00:17  0:00:17 --:--:-- 3347k
+15:25:16 ~ dmitry@Lenovo-B50:~/git/devops-netology/04-devkub-homeworks/12-kubernetes-05-cni/policies (main=)
+$ chmod +x ./calicoctl
+```
 
 
+### Получить 3 вышеописанных типа в консоли.
+
+- Ноды:
+    ```console
+    $ ./calicoctl get node
+    NAME
+    n125-control-0
+    n125-worker-0
+    ```
+- ipPool:
+    ```console
+    $ ./calicoctl get ipPool
+    NAME           CIDR             SELECTOR
+    default-pool   10.233.64.0/18   all()
+    ```
+- profile:
+    ```console
+    $ ./calicoctl get profile
+    NAME
+    projectcalico-default-allow
+    kns.default
+    kns.kube-node-lease
+    kns.kube-public
+    kns.kube-system
+    ksa.default.default
+    ksa.kube-node-lease.default
+    ksa.kube-public.default
+    ksa.kube-system.attachdetach-controller
+    ksa.kube-system.bootstrap-signer
+    ksa.kube-system.calico-node
+    ksa.kube-system.certificate-controller
+    ksa.kube-system.clusterrole-aggregation-controller
+    ksa.kube-system.coredns
+    ksa.kube-system.cronjob-controller
+    ksa.kube-system.daemon-set-controller
+    ksa.kube-system.default
+    ksa.kube-system.deployment-controller
+    ksa.kube-system.disruption-controller
+    ksa.kube-system.dns-autoscaler
+    ksa.kube-system.endpoint-controller
+    ksa.kube-system.endpointslice-controller
+    ksa.kube-system.endpointslicemirroring-controller
+    ksa.kube-system.ephemeral-volume-controller
+    ksa.kube-system.expand-controller
+    ksa.kube-system.generic-garbage-collector
+    ksa.kube-system.horizontal-pod-autoscaler
+    ksa.kube-system.job-controller
+    ksa.kube-system.kube-proxy
+    ksa.kube-system.namespace-controller
+    ksa.kube-system.node-controller
+    ksa.kube-system.nodelocaldns
+    ksa.kube-system.persistent-volume-binder
+    ksa.kube-system.pod-garbage-collector
+    ksa.kube-system.pv-protection-controller
+    ksa.kube-system.pvc-protection-controller
+    ksa.kube-system.replicaset-controller
+    ksa.kube-system.replication-controller
+    ksa.kube-system.resourcequota-controller
+    ksa.kube-system.root-ca-cert-publisher
+    ksa.kube-system.service-account-controller
+    ksa.kube-system.service-controller
+    ksa.kube-system.statefulset-controller
+    ksa.kube-system.token-cleaner
+    ksa.kube-system.ttl-after-finished-controller
+    ksa.kube-system.ttl-controller
+    ```
