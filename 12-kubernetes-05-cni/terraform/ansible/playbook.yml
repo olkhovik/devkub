@@ -11,7 +11,7 @@
       failed_when: False
     - name: Deploy hello-node
       command: 
-        cmd: kubectl create deployment hello-node --image=k8s.gcr.io/echoserver:1.4 --replicas=1
+        cmd: kubectl create deployment hello-node --image=k8s.gcr.io/echoserver:1.4 --replicas=2
       when: check_hello_node.rc != 0
 
     - name: Check if hello-node is exposed
