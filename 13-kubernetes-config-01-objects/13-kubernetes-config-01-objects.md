@@ -8,8 +8,8 @@
 > - база данных — через statefulset.
 
 Приложения запущены в отдельном неймспейсе `stage`. Манифесты:
-- [deployment | Приложение](./13-kubernetes-config-01-objects/stage/app.yml)
-- [statefullset | БД](./13-kubernetes-config-01-objects/stage/db.yml)
+- [deployment | Приложение](./stage/app.yml)
+- [statefullset | БД](./stage/db.yml)
 
 Вывода команды `kubectl` со списком запущенных объектов каждого типа:
 
