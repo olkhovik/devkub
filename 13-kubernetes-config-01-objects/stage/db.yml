@@ -5,7 +5,7 @@ metadata:
   labels:
     app: postgres-db
   name: postgres-db
-  namespace: default
+  namespace: stage
 spec:
   serviceName: postgres-db-svc
   selector:

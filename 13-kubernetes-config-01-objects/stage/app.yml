@@ -5,7 +5,7 @@ metadata:
   name: fb-pod
   labels:
     app: fb-app
-  namespace: default
+  namespace: stage
 spec:
   selector:
     matchLabels:
