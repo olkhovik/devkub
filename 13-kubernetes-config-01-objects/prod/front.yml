@@ -1,0 +1,43 @@
+# Config Front
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: prod-f
+  namespace: prod
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ecommerce
+      tier: front
+  template:
+    metadata:
+      labels:
+        app: ecommerce
+        tier: front
+    spec:
+      containers:
+      - name: client
+        image: endlessoda/13-kubernetes-config_frontend
+        imagePullPolicy: "IfNotPresent"
+        ports:
+        - name: http
+          containerPort: 8080
+        env:
+        - name: PRODUCT_BACK_SERVER_URL
+          value: product-b
+# Config Service
+---
+apiVersion: v1
+kind: Service
+metadata:
+    name: produ-f
+spec:
+    type: NodePort
+    ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+    selector:
+        app: ecommerce
+        tier: front

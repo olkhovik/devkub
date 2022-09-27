@@ -1,0 +1,57 @@
+# Config Back
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: ecommerce
+    tier: back
+  name: prod-b
+  namespace: prod
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: ecommerce
+      tier: back
+  template:
+    metadata:
+      labels:
+        app: ecommerce
+        tier: back
+    spec:
+      containers:
+      - env:
+        - name: DATABASE_HOST
+          value: postgres
+        - name: DATABASE_NAME
+          value: prod-db
+        - name: DATABASE_PASSWORD
+          value: postgres
+        - name: DATABASE_USER
+          value: postgres
+        - name: DATABASE_PORT
+          value: "5432"
+        image: endlessoda/13-kubernetes-config_backend
+        imagePullPolicy: "IfNotPresent"
+        name: prod-b
+        ports:
+        - containerPort: 8080
+      restartPolicy: Always
+# Config Service
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: ecommerce
+    tier: back
+  name: prod-b
+spec:
+  type: NodePort
+  ports:
+  - name: "8080"
+    port: 8080
+    targetPort: 8080
+  selector:
+    app: ecommerce
+    tier: back
